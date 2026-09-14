@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Portofolio personal — menampilkan profil, skill, pengalaman, dan project."
+  />
+  <title>Alexandra — Portfolio</title>
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-soft: #111111;
+      --card: #151515;
+      --text: #f5f5f5;
+      --muted: #a1a1aa;
+      --line: rgba(255, 255, 255, 0.1);
+      --accent: #ffffff;
+      --max-width: 1180px;
+      --radius: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    /* Background */
+
+    .background-glow {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .glow {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(130px);
+      opacity: 0.09;
+      background: white;
+    }
+
+    .glow.one {
+      top: -180px;
+      left: -150px;
+    }
+
+    .glow.two {
+      right: -150px;
+      top: 30%;
+      opacity: 0.06;
+    }
+
+    /* Navigation */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(10, 10, 10, 0.72);
+      border-bottom: 1px solid transparent;
+      transition: 0.3s ease;
+    }
+
+    nav.scrolled {
+      border-color: var(--line);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 10px 17px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      transition:
+        background 0.25s ease,
+        color 0.25s ease;
+    }
+
+    .nav-cta:hover {
+      color: #000;
+      background: #fff;
+    }
+
+    .menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Hero */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 140px 0 100px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.9);
+    }
+
+    .hero h1 {
+      max-width: 800px;
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      color: #666;
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 35px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 14px 22px;
+      border: 1px solid var(--line);
+      transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: #000;
+      background: white;
+      border-color: white;
+    }
+
+    .btn-primary:hover {
+      background: #ddd;
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: transparent;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 500px;
+      border: 1px solid var(--line);
+      border-radius: 36px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.14), transparent 30%),
+        linear-gradient(145deg, #191919, #0d0d0d);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow:
+        0 0 0 40px rgba(255, 255, 255, 0.03),
+        0 0 0 80px rgba(255, 255, 255, 0.02);
+    }
+
+    .hero-card-content {
+      position: absolute;
+      inset: auto 26px 26px 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .hero-card-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-card-role {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .hero-card-number {
+      font-size: 5rem;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.08);
+      font-weight: 800;
+      letter-spacing: -0.08em;
+    }
+
+    /* Sections */
+
+    section {
+      padding: 120px 0;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
+      margin-bottom: 55px;
+    }
+
+    .section-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.73rem;
+      margin-bottom: 13px;
+    }
+
+    .section-title {
+      font-size: clamp(2.3rem, 5vw, 4.5rem);
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .section-desc {
+      max-width: 460px;
+      color: var(--muted);
+    }
+
+    /* About */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 80px;
+    }
+
+    .about-quote {
+      font-size: clamp(2rem, 4vw, 3.7rem);
+      line-height: 1.02;
+      letter-spacing: -0.05em;
+    }
+
+    .about-quote span {
+      color: #555;
+    }
+
+    .about-content p {
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 40px;
+    }
+
+    .stat {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+
+    .stat-number {
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 3px;
+    }
+
+    /* Skills */
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .skill {
+      min-height: 180px;
+      padding: 26px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .skill:hover {
+      background: var(--card);
+      transform: translateY(-2px);
+    }
+
+    .skill-index {
+      color: #555;
+      font-size: 0.75rem;
+    }
+
+    .skill-name {
+      margin-top: 50px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .skill-desc {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 8px;
+    }
+
+    /* Projects */
+
+    .projects {
+      display: grid;
+      gap: 24px;
+    }
+
+    .project {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      min-height: 420px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+    }
+
+    .project.reverse {
+      grid-template-columns: 0.7fr 1.3fr;
+    }
+
+    .project.reverse .project-image {
+      order: 2;
+    }
+
+    .project-image {
+      position: relative;
+      min-height: 420px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, #242424, #0e0e0e);
+    }
+
+    .project-image::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow:
+        0 0 0 35px rgba(255, 255, 255, 0.03),
+        0 0 0 70px rgba(255, 255, 255, 0.02);
+    }
+
+    .project-mockup {
+      position: absolute;
+      width: 72%;
+      height: 72%;
+      left: 14%;
+      top: 14%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(10px);
+      padding: 18px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    .mockup-top {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .mockup-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #555;
+    }
+
+    .mockup-line {
+      width: 80%;
+      height: 8px;
+      border-radius: 99px;
+      background: #252525;
+      margin-bottom: 10px;
+    }
+
+    .mockup-line.short {
+      width: 50%;
+    }
+
+    .mockup-boxes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .mockup-box {
+      height: 85px;
+      border-radius: 10px;
+      background: #1d1d1d;
+      border: 1px solid #292929;
+    }
+
+    .project-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 38px;
+    }
+
+    .project-number {
+      color: #555;
+      font-size: 0.75rem;
+      margin-bottom: 65px;
+    }
+
+    .project-title {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .project-description {
+      max-width: 430px;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 25px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .project-link {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 35px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #555;
+      transition: border-color 0.2s ease;
+    }
+
+    .project-link:hover {
+      border-color: white;
+    }
+
+    /* Experience */
+
+    .experience-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .experience-item {
+      display: grid;
+      grid-template-columns: 0.25fr 0.35fr 1fr;
+      gap: 35px;
+      padding: 30px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .experience-year {
+      color: #666;
+      font-size: 0.82rem;
+    }
+
+    .experience-company {
+      font-weight: 600;
+    }
+
+    .experience-role {
+      font-size: 1rem;
+    }
+
+    .experience-desc {
+      color: var(--muted);
+      margin-top: 7px;
+      max-width: 600px;
+      font-size: 0.9rem;
+    }
+
+    /* Contact */
+
+    .contact {
+      padding-bottom: 80px;
+    }
+
+    .contact-box {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 70px 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .contact-title {
+      max-width: 750px;
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .contact-title span {
+      color: #555;
+    }
+
+    .contact-email {
+      color: var(--muted);
+      margin-top: 25px;
+    }
+
+    .contact-email:hover {
+      color: white;
+    }
+
+    footer {
+      padding: 30px 0 45px;
+      color: #555;
+      font-size: 0.78rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    /* Reveal animation */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+      .nav-links {
+        position: absolute;
+        top: 75px;
+        left: 20px;
+        right: 20px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background: rgba(15, 15, 15, 0.96);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links li a {
+        display: block;
+        padding: 13px;
+      }
+
+      .nav-cta {
+        margin-top: 4px;
+        text-align: center;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 55px;
+      }
+
+      .hero-card {
+        min-height: 400px;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .project,
+      .project.reverse {
+        grid-template-columns: 1fr;
+      }
+
+      .project.reverse .project-image {
+        order: 0;
+      }
+
+      .project-image {
+        min-height: 330px;
+      }
+
+      .experience-item {
+        grid-template-columns: 0.25fr 0.75fr;
+      }
+
+      .experience-role {
+        grid-column: 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max-width));
+      }
+
+      section {
+        padding: 85px 0;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.2rem, 16vw, 5rem);
+      }
+
+      .hero-card {
+        min-height: 330px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skill {
+        min-height: 150px;
+      }
+
+      .skill-name {
+        margin-top: 35px;
+      }
+
+      .project-content {
+        padding: 25px;
+      }
+
+      .project-number {
+        margin-bottom: 45px;
+      }
+
+      .project-image {
+        min-height: 280px;
+      }
+
+      .experience-item {
+        display: block;
+      }
+
+      .experience-company {
+        margin-top: 8px;
+      }
+
+      .experience-role {
+        margin-top: 18px;
+      }
+
+      .contact-box {
+        display: block;
+        padding: 55px 0;
+      }
+
+      .contact-title {
+        font-size: clamp(3.2rem, 15vw, 5rem);
+      }
+
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="background-glow">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+  </div>
+
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#home" class="logo">ALEXANDRA.</a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Open navigation">
+        ☰
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">
+            <span class="status-dot"></span>
+            Available for selected projects
+          </div>
+
+          <h1>
+            Digital
+            <span>designer</span>
+            & developer.
+          </h1>
+
+          <p class="hero-description">
+            Saya merancang dan membangun pengalaman digital yang bersih,
+            fungsional, dan memiliki karakter kuat — dari konsep hingga
+            production.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              View my work
+              <span>↗</span>
+            </a>
+
+            <a href="#contact" class="btn btn-secondary">
+              Let's talk
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-card reveal">
+          <div class="hero-card-content">
+            <div>
+              <div class="hero-card-name">Alexandra Putri</div>
+              <div class="hero-card-role">Product Designer / Developer</div>
+            </div>
+
+            <div class="hero-card-number">01</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <div class="section-label">01 / About</div>
+            <h2 class="section-title">A little about me.</h2>
+          </div>
+
+          <p class="section-desc">
+            Saya fokus pada digital product yang menggabungkan visual,
+            teknologi, dan pengalaman pengguna.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-quote reveal">
+            "Good design should feel
+            <span>obvious.</span>"
+          </div>
+
+          <div class="about-content reveal">
+            <p>
+              Saya adalah seorang designer & developer yang menikmati proses
+              mengubah ide abstrak menjadi produk digital yang nyata.
+            </p>
+
+            <p>
+              Pendekatan saya berada di antara design thinking, visual
+              direction, interaction design, dan front-end development.
+              Hasil akhirnya bukan sekadar terlihat bagus, tetapi juga terasa
+              natural saat digunakan.
+            </p>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Years experience</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-number">40+</div>
+                <div class="stat-label">Projects completed</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Brands worked with</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <div class="section-label">02 / Skills</div>
+            <h2 class="section-title">What I do.</h2>
+          </div>
+
+          <p class="section-desc">
+            Dari struktur produk hingga detail interface, saya bekerja
+            end-to-end.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill reveal">
+            <div class="skill-index">01</div>
+            <div class="skill-name">Product Design</div>
+            <div class="skill-desc">
+              UX strategy, user flow, wireframe, prototype.
+            </div>
+          </div>
+
+          <div class="skill reveal">
+            <div class="skill-index">02</div>
+            <div class="skill-name">UI Design</div>
+            <div class="skill-desc">
+              Visual system, interface, design system, interaction.
+            </div>
+          </div>
+
+          <div class="skill reveal">
+            <div class="skill-index">03</div>
+            <div class="skill-name">Frontend</div>
+            <div class="skill-desc">
+              Responsive website dan interactive web experience.
+            </div>
+          </div>
+
+          <div class="skill reveal">
+            <div class="skill-index">04</div>
+            <div class="skill-name">Creative Direction</div>
+            <div class="skill-desc">
+              Brand direction, visual identity, digital storytelling.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <div class="section-label">03 / Selected work</div>
+            <h2 class="section-title">Selected projects.</h2>
+          </div>
+
+          <p class="section-desc">
+            Beberapa project yang merepresentasikan cara saya berpikir,
+            mendesain, dan membangun.
+          </p>
+        </div>
+
+        <div class="projects">
+          <article class="project reveal">
+            <div class="project-image">
+              <div class="project-mockup">
+                <div class="mockup-top">
+                  <span class="mockup-dot"></span>
+                  <span class="mockup-dot"></span>
+                  <span class="mockup-dot"></span>
+                </div>
+
+                <div class="mockup-line"></div>
+                <div class="mockup-line short"></div>
+
+                <div class="mockup-boxes">
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-content">
+              <div>
+                <div class="project-number">01 — FINTECH</div>
+                <h3 class="project-title">NOVA Finance</h3>
+
+                <p class="project-description">
+                  Memperbarui pengalaman mobile banking agar lebih sederhana,
+                  cepat, dan mudah dipahami untuk pengguna baru.
+                </p>
+
+                <div class="project-tags">
+                  <span class="tag">UX Research</span>
+                  <span class="tag">UI Design</span>
+                  <span class="tag">Prototype</span>
+                </div>
+              </div>
+
+              <a href="#" class="project-link">View case study ↗</a>
+            </div>
+          </article>
+
+          <article class="project reverse reveal">
+            <div class="project-image">
+              <div class="project-mockup">
+                <div class="mockup-top">
+                  <span class="mockup-dot"></span>
+                  <span class="mockup-dot"></span>
+                  <span class="mockup-dot"></span>
+                </div>
+
+                <div class="mockup-line"></div>
+                <div class="mockup-line short"></div>
+
+                <div class="mockup-boxes">
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-content">
+              <div>
+                <div class="project-number">02 — E-COMMERCE</div>
+                <h3 class="project-title">Morrow Store</h3>
+
+                <p class="project-description">
+                  E-commerce experience dengan fokus pada storytelling
+                  visual, product discovery, dan checkout flow yang lebih
+                  ringkas.
+                </p>
+
+                <div class="project-tags">
+                  <span class="tag">Art Direction</span>
+                  <span class="tag">Web Design</span>
+                  <span class="tag">Frontend</span>
+                </div>
+              </div>
+
+              <a href="#" class="project-link">View case study ↗</a>
+            </div>
+          </article>
+
+          <article class="project reveal">
+            <div class="project-image">
+              <div class="project-mockup">
+                <div class="mockup-top">
+                  <span class="mockup-dot"></span>
+                  <span class="mockup-dot"></span>
+                  <span class="mockup-dot"></span>
+                </div>
+
+                <div class="mockup-line"></div>
+                <div class="mockup-line short"></div>
+
+                <div class="mockup-boxes">
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                  <div class="mockup-box"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-content">
+              <div>
+                <div class="project-number">03 — SAAS</div>
+                <h3 class="project-title">Orbit OS</h3>
+
+                <p class="project-description">
+                  Dashboard SaaS untuk membantu tim melakukan monitoring,
+                  analitik, dan kolaborasi dalam satu workspace.
+                </p>
+
+                <div class="project-tags">
+                  <span class="tag">Product Design</span>
+                  <span class="tag">Design System</span>
+                  <span class="tag">Frontend</span>
+                </div>
+              </div>
+
+              <a href="#" class="project-link">View case study ↗</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="container">
+        <div class="section-header reveal">
+          <div>
+            <div class="section-label">04 / Experience</div>
+            <h2 class="section-title">Where I've worked.</h2>
+          </div>
+
+          <p class="section-desc">
+            Pengalaman profesional di berbagai environment dan skala produk.
+          </p>
+        </div>
+
+        <div class="experience-list">
+          <div class="experience-item reveal">
+            <div class="experience-year">2024 — NOW</div>
+            <div class="experience-company">Independent</div>
+            <div class="experience-role">
+              Product Designer & Developer
+              <div class="experience-desc">
+                Mengerjakan produk digital, website, dan design system untuk
+                berbagai startup dan brand.
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item reveal">
+            <div class="experience-year">2022 — 2024</div>
+            <div class="experience-company">North Studio</div>
+            <div class="experience-role">
+              Senior Product Designer
+              <div class="experience-desc">
+                Memimpin proses UX dan UI untuk aplikasi SaaS serta
+                membangun design system lintas produk.
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item reveal">
+            <div class="experience-year">2020 — 2022</div>
+            <div class="experience-company">Mono Digital</div>
+            <div class="experience-role">
+              UI/UX Designer
+              <div class="experience-desc">
+                Merancang website dan aplikasi digital mulai dari discovery,
+                wireframing hingga final delivery.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="contact-box reveal">
+          <div>
+            <h2 class="contact-title">
+              Have a project?
+              <span>Let's build it.</span>
+            </h2>
+
+            <a class="contact-email" href="mailto:hello@example.com">
+              hello@example.com
+            </a>
+          </div>
+
+          <a href="mailto:hello@example.com" class="btn btn-primary">
+            Get in touch ↗
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 Alexandra Putri</div>
+      <div>Designed & built with intention.</div>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById("navbar");
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    const links = [...document.querySelectorAll(".nav-links a")];
+    const sections = [...document.querySelectorAll("main section[id]")];
+    const reveals = [...document.querySelectorAll(".reveal")];
+
+    // Navbar scroll state
+    window.addEventListener(
+      "scroll",
+      () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 20);
+
+        let currentSection = "";
+
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 140;
+          const sectionBottom = sectionTop + section.offsetHeight;
+
+          if (
+            window.scrollY >= sectionTop &&
+            window.scrollY < sectionBottom
+          ) {
+            currentSection = section.id;
+          }
+        });
+
+        links.forEach((link) => {
+          const href = link.getAttribute("href").replace("#", "");
+          link.classList.toggle("active", href === currentSection);
+        });
+      },
+      { passive: true }
+    );
+
+    // Mobile navigation
+    menuBtn.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+      });
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+      }
+    );
+
+    reveals.forEach((element, index) => {
+      element.style.transitionDelay = `${(index % 4) * 70}ms`;
+      observer.observe(element);
+    });
+
+    // Smooth scroll with fixed navbar offset
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (event) => {
+        const targetId = anchor.getAttribute("href");
+
+        if (targetId === "#") return;
+
+        const target = document.querySelector(targetId);
+
+        if (!target) return;
+
+        event.preventDefault();
+
+        const offset = 80;
+        const position =
+          target.getBoundingClientRect().top +
+          window.scrollY -
+          offset;
+
+        window.scrollTo({
+          top: position,
+          behavior: "smooth",
+        });
+      });
+    });
+  </script>
+</body>
+</html>
